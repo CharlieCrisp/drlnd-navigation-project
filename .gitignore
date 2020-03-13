@@ -1,3 +1,6 @@
 unity-environment.log
 Banana.app
 .idea/
+__pycache__
+venv
+.ipynb_checkpoints
