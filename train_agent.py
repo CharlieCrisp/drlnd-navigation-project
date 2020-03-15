@@ -1,8 +1,12 @@
-from unityagents import UnityEnvironment
-from dqn_agent import Agent
+import argparse
+import os
 import torch
 
 import matplotlib.pyplot as plt
+
+from os import path
+from unityagents import UnityEnvironment
+from dqn_agent import Agent
 
 
 plt.ion()
@@ -22,7 +26,9 @@ def plot_scores(times, scores, fig, ax, line):
     draw(fig)
 
 
-def train(agent, environment, brain_name, fig, ax, line, n_episodes, max_t=1000, eps_start=1.0, eps_decay_rate=0.995, eps_end=0.01):
+def train(agent, environment, brain_name, fig, ax, line, checkpoint_filename, n_episodes, max_t=1000, eps_start=1.0, eps_decay_rate=0.995, eps_end=0.01):
+    print(f"Trained agent weights will be saved to {checkpoint_filename}")
+    print(f"Agent will be trained for {n_episodes} episodes")
     eps = eps_start
 
     scores = []
@@ -53,7 +59,11 @@ def train(agent, environment, brain_name, fig, ax, line, n_episodes, max_t=1000,
 
         eps = max(eps_end, eps * eps_decay_rate)
 
-    torch.save(agent.qnetwork_local.state_dict(), 'checkpoint.pth')
+    checkpoint_dir = path.dirname(checkpoint_filename)
+    if checkpoint_dir != '' and not path.exists(checkpoint_dir):
+        os.mkdir(checkpoint_dir)
+
+    torch.save(agent.qnetwork_local.state_dict(), checkpoint_filename)
     return indexes, scores
 
 
@@ -70,6 +80,12 @@ def get_action_and_state_size(environment, brain_name):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Train an agent to play the banana game.')
+    parser.add_argument('--checkpoint-file', type=str, dest='filename', help='The file in which to save agent weights', default="checkpoints/checkpoint.pth")
+    parser.add_argument('--episodes', type=int, dest='episodes', help='Number of episodes to train agent for', default=1000)
+
+    args = parser.parse_args()
+
     env = UnityEnvironment(file_name="Banana.app")
 
     brain_name = env.brain_names[0]
@@ -83,7 +99,7 @@ if __name__ == "__main__":
     line, = ax.plot([], [])
     draw(fig)
 
-    indexes, scores = train(training_agent, env, brain_name, fig, ax, line, n_episodes=1000)
+    indexes, scores = train(training_agent, env, brain_name, fig, ax, line, args.filename, n_episodes=args.episodes)
 
     env.close()
 

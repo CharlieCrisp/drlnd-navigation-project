@@ -7,10 +7,16 @@ Create a virtualenv and install the following packages:
  - unityagents
  - matplotlib
  
-## Running project
+## Training agent
  - `source ./venv/bin/activate`
- - `python train_agent.py`
+ - `python train_agent.py --checkpoint-file checkpoint/checkpoint.pth --episodes 500`
  - You will see a graph of the reward that the agent receives over time.
+ - Use `python train_agent.py --help` for information about required arguments
+
+## Playing game using trained agent
+ - `source ./venv/bin/activate`
+ - `python play_game_with_trained_agent.py --checkpoint-file checkpoint/checkpoint.pth`
+
 
 ## Details
 This project uses a neural network with 2 hidden layers. 
