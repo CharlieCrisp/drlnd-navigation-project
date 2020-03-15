@@ -27,3 +27,40 @@ class QNetwork(nn.Module):
         x = F.relu(self.fc1(state))
         x = F.relu(self.fc2(x))
         return self.fc3(x)
+
+
+class VisualQNetwork(nn.Module):
+    """Actor (Policy) Model."""
+
+    def __init__(self, action_size, seed):
+        """Initialize parameters and build model.
+        Params
+        ======
+            state_size (int): Dimension of each state
+            action_size (int): Dimension of each action
+            seed (int): Random seed
+        """
+        super(VisualQNetwork, self).__init__()
+        self.seed = torch.manual_seed(seed)
+
+        # 3 input channels = RGB
+        self.conv1 = nn.Conv2d(3, 5, 3)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(5, 3, 3)
+        self.fc1 = nn.Linear(3 * 19 * 19, 8)
+        self.fc1_drop = nn.Dropout(p=0.4)
+        self.fc2 = nn.Linear(8, action_size)
+
+    def forward(self, x):
+        x = x.squeeze(1)
+        x = x.permute(0, 3, 1, 2)
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+
+        x = x.view(x.size(0), -1)
+
+        x = F.relu(self.fc1(x))
+        x = self.fc1_drop(x)
+        x = self.fc2(x)
+
+        return x

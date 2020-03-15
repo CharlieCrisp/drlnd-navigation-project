@@ -17,6 +17,10 @@ Create a virtualenv and install the following packages:
  - `source ./venv/bin/activate`
  - `python play_game_with_trained_agent.py --checkpoint-file checkpoint/checkpoint.pth`
 
+## Using visual pixel input
+Both training and playing scripts take an optional flag `--visual` which causes them to use the visual pixel input version of the problem.
+In this scenario, the agent learns to play the game based on a RGB pixel input stream rather than a preprocessed vector of details about the game.
+The agent must first learn important features and then use them to guide optimal actions
 
 ## Details
 This project uses a neural network with 2 hidden layers. 

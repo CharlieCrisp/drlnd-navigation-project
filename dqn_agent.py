@@ -2,7 +2,7 @@ import numpy as np
 import random
 from collections import namedtuple, deque
 
-from model import QNetwork
+from model import QNetwork, VisualQNetwork
 
 import torch
 import torch.optim as optim
@@ -20,22 +20,26 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 class Agent:
     """Interacts with and learns from the environment."""
 
-    def __init__(self, state_size, action_size, seed):
+    def __init__(self, action_size, seed, state_size, visual):
         """Initialize an Agent object.
         
         Params
         ======
-            state_size (int): dimension of each state
             action_size (int): dimension of each action
             seed (int): random seed
+            state_size (int): dimension of each state. Note this can be None if visual is true
+            visual (bool): whether to train the agent on visual pixels or vector observations
         """
-        self.state_size = state_size
+        if not visual:
+            self.state_size = state_size
         self.action_size = action_size
         self.seed = random.seed(seed)
 
         # Q-Network
-        self.qnetwork_local = QNetwork(state_size, action_size, seed).to(device)
-        self.qnetwork_target = QNetwork(state_size, action_size, seed).to(device)
+        self.qnetwork_local = QNetwork(state_size, action_size, seed) if not visual else VisualQNetwork(action_size, seed)
+        self.qnetwork_local = self.qnetwork_local.to(device)
+        self.qnetwork_target = QNetwork(state_size, action_size, seed) if not visual else VisualQNetwork(action_size, seed)
+        self.qnetwork_target = self.qnetwork_target.to(device)
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=LR)
         self.beta_start = 0.4
 
