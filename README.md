@@ -9,13 +9,13 @@ Create a virtualenv and install the following packages:
  
 ## Training agent
  - `source ./venv/bin/activate`
- - `python train_agent.py --checkpoint-file checkpoint/checkpoint.pth --episodes 500`
+ - `python train_agent.py --checkpoint-file checkpoint.pth --episodes 500`
  - You will see a graph of the reward that the agent receives over time.
  - Use `python train_agent.py --help` for information about required arguments
 
 ## Playing game using trained agent
  - `source ./venv/bin/activate`
- - `python play_game_with_trained_agent.py --checkpoint-file checkpoint/checkpoint.pth`
+ - `python play_game_with_trained_agent.py --checkpoint-file checkpoint.pth`
 
 ## Using visual pixel input
 Both training and playing scripts take an optional flag `--visual` which causes them to use the visual pixel input version of the problem.
@@ -27,7 +27,7 @@ This project uses a neural network with 2 hidden layers.
 The two layers have 64 nodes.
 The agent uses prioritized experience replay, fixed q targets and an Adam optimiser.
 
-The agent learns to solve the environment with an average reward around 15 in roughly 400 episodes.
+The agent learns to solve the environment with an average reward around 15 in roughly 500 episodes.
 Using just uniform random experience replay, the agent achieves the same result in roughly 750 episodes. 
 
 ### Prioritized Experience Replay

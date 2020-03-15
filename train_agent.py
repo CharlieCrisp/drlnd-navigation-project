@@ -92,7 +92,7 @@ def get_visual_state(env_info):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Train an agent to play the banana game.')
-    parser.add_argument('--checkpoint-file', type=str, dest='filename', help='The file in which to save agent weights', default="checkpoints/checkpoint.pth")
+    parser.add_argument('--checkpoint-file', type=str, dest='filename', help='The file in which to save agent weights', default="checkpoint.pth")
     parser.add_argument('--episodes', type=int, dest='episodes', help='Number of episodes to train agent for', default=1000)
     parser.add_argument('--visual', dest='visual', help='Train agent on only input pixels rather than preprocessed state vector', action='store_true')
 
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     line, = ax.plot([], [])
     draw(fig)
 
-    indexes, scores = train(training_agent, env, brain_name, fig, ax, line, args.filename, n_episodes=args.episodes, get_state=get_state)
+    indexes, scores = train(training_agent, env, brain_name, fig, ax, line, f"checkpoints/{args.filename}", n_episodes=args.episodes, get_state=get_state)
 
     plt.savefig("trained_agent.png")
     env.close()

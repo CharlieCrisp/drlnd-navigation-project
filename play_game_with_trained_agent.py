@@ -34,7 +34,7 @@ def load_agent(action_size, state_size, checkpoint_file, visual):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Play a round of banana game using a trained agent.')
-    parser.add_argument('--checkpoint-file', type=str, dest='filename', help='The file to load agent weights from', default="checkpoints/checkpoint.pth")
+    parser.add_argument('--checkpoint-file', type=str, dest='filename', help='The file to load agent weights from', default="checkpoint.pth")
     parser.add_argument('--visual', dest='visual', help='Pass in this flag to use agent that acts only on raw pixels rather than a preprocessed state vector', action='store_true')
 
     args = parser.parse_args()
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     action_size, state_size = get_action_and_state_size(env, brain_name, args.visual)
     get_state = get_vector_state if not args.visual else get_visual_state
 
-    agent = load_agent(action_size, state_size, args.filename, args.visual)
+    agent = load_agent(action_size, state_size, f"checkpoints/{args.filename}", args.visual)
     play_game_using_policy(agent, env, brain_name, get_state)
 
     env.close()
