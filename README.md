@@ -37,15 +37,4 @@ The agent must first learn important features and then use them to guide optimal
 Note: due to not training with a GPU, there are no saved weights for this version of the network.
 
 ## Details
-This project uses a neural network with 2 hidden layers. 
-The two layers have 64 nodes.
-The agent uses prioritized experience replay, fixed q targets and an Adam optimiser.
-
-The agent learns to solve the environment with an average reward around 15 in roughly 500 episodes.
-Using just uniform random experience replay, the agent achieves the same result in roughly 750 episodes. 
-
-### Prioritized Experience Replay
-![Prioritized experience replay](./img/Prioritized%20Experience%20Replay%201000%20eps.png)
-
-### Uniform Random Experience Replay
-![Prioritized experience replay](./img/Experience%20Replay%20750%20eps.png)
+For a write up of the details and results, see the [Report.md](./Report.md) document.

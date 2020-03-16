@@ -3,6 +3,7 @@ import os
 import torch
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 from os import path
 from unityagents import UnityEnvironment
@@ -31,8 +32,10 @@ def train(agent, environment, brain_name, fig, ax, line, checkpoint_filename, n_
     print(f"Agent will be trained for {n_episodes} episodes")
     eps = eps_start
 
-    scores = []
-    indexes = []
+    scores = np.array([])
+    indices = np.array([])
+
+    problem_is_solved = False
 
     # Define episode timestep
     for i_episode in range(0, n_episodes + 1):
@@ -53,9 +56,14 @@ def train(agent, environment, brain_name, fig, ax, line, checkpoint_filename, n_
             if done:
                 break
 
-        scores.append(score)
-        indexes.append(i_episode)
-        plot_scores(indexes, scores, fig, ax, line)
+        scores = np.append(scores, score)
+        indices = np.append(indices, i_episode)
+
+        if not problem_is_solved and scores[-100:].mean() > 13:
+            print(f"Solved the problem in {i_episode + 1} episodes")
+            problem_is_solved = True
+
+        plot_scores(indices, scores, fig, ax, line)
 
         eps = max(eps_end, eps * eps_decay_rate)
 
@@ -64,7 +72,7 @@ def train(agent, environment, brain_name, fig, ax, line, checkpoint_filename, n_
         os.mkdir(checkpoint_dir)
 
     torch.save(agent.qnetwork_local.state_dict(), checkpoint_filename)
-    return indexes, scores
+    return indices, scores
 
 
 def get_action_and_state_size(environment, brain_name, is_visual):
