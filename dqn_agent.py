@@ -48,7 +48,7 @@ class Agent:
         # Initialize time step (for updating every UPDATE_EVERY steps)
         self.t_step = 0
         self.batch_no = 0
-        self.beta_batch_nos = 10_000
+        self.beta_batch_nos = 50_000
     
     def step(self, state, action, reward, next_state, done):
         # Save experience in replay memory

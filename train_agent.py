@@ -27,7 +27,7 @@ def plot_scores(times, scores, fig, ax, line):
     draw(fig)
 
 
-def train(agent, environment, brain_name, fig, ax, line, checkpoint_filename, n_episodes, get_state, max_t=1000, eps_start=1.0, eps_decay_rate=0.995, eps_end=0.01):
+def train(agent, environment, brain_name, fig, ax, line, checkpoint_filename, n_episodes, get_state, max_t=1000, eps_start=1.0, eps_decay_rate=0.992, eps_end=0.01):
     print(f"Trained agent weights will be saved to {checkpoint_filename}")
     print(f"Agent will be trained for {n_episodes} episodes")
     eps = eps_start

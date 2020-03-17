@@ -1,14 +1,15 @@
 # Project report
-This project uses a neural network with 2 hidden layers. 
-The two layers have 64 nodes.
+This project uses a neural network with 3 hidden layers. 
+The first two layers have 64 nodes and the last has 32.
 The agent uses prioritized experience replay, fixed q targets and an Adam optimiser.
 
 For the pixel challenge where the agent is trained from a 84x84 RGB input image, the project uses two convolutional 
 layers with maxpooling, two fully connected layers and a dropout layer.
 
-The agent learns to solve the environment in 550 episodes. 
+The agent learns to solve the environment in 455 episodes. 
 This means it gets an average score of over 13 (averaged over 100 consecutive episodes).
-Using just uniform random experience replay, the agent achieves the same result in roughly 750 episodes. 
+Using just uniform random experience replay, the agent solves the environment in 470 episodes.
+The difference here is minimal but with more tuning of hyperparameters, the agent may even solve the environment more quickly.
 
 
 ## Hyperparameters
@@ -23,7 +24,12 @@ UPDATE_EVERY = 4        # how often to update the network
 
 A = 0.6                 # The value of alpha for prioritized experience replay
 B_START = 0.4           # The initial value of beta for prioritized experience replay
-BETA_BATCH_NOS = 10_000 # The number of samples over which to anneal beta to 1.0
+BETA_BATCH_NOS = 50_000 # The number of samples over which to anneal beta to 1.0
+
+eps_start = 1.0         # The initial value of epsilon
+eps_decay_rate = 0.992  # The rate with which epsilon decays every timestep
+eps_end = 0.01          # The minimal value of epsilon
+
 ```
 
 
@@ -33,7 +39,7 @@ gradient based optimisation algorithm for stochastic objective functions.
  
 ## Results
 ### Prioritized Experience Replay
-![Prioritized experience replay](./img/Prioritized%20Experience%20Replay%201000%20eps.png)
+![Prioritized experience replay](./img/Prioritized%20Experience%20Replay%20750%20eps.png)
 
 ### Uniform Random Experience Replay
 This is the results of the project before Prioritized Experience Replay was added.
