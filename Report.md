@@ -8,9 +8,9 @@ layers with maxpooling, two fully connected layers and a dropout layer.
 
 The agent learns to solve the environment in 455 episodes. 
 This means it gets an average score of over 13 (averaged over 100 consecutive episodes).
-Using just uniform random experience replay, the agent solves the environment in 470 episodes.
+Using just uniform random experience replay, the agent solves the environment in 463 episodes.
 The difference here is minimal but with more tuning of hyperparameters, the agent may even solve the environment more quickly.
-
+For more information about the uniform experience replay, please see the branch `release/uniform-experience-replay`.
 
 ## Hyperparameters
 The project uses the following hyperparameters:
